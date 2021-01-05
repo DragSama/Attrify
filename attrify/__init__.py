@@ -18,11 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .superdict import SuperDict
+from .attrified_dict import Attrify
 
 __author__ = ["DragSama"]
 __version__ = 1.0
 
 if __name__ == "__main__":
-    print(f"SuperDict v{__version__}: {SuperDict}")
+    print(f"Attrify v{__version__}: {Attrify}")
     print("Copyright (c) 2021 DragSama")

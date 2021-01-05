@@ -21,28 +21,28 @@
 from typing import Tuple, List, Set, Union, Dict, Any
 
 
-class SuperDict(dict):
+class Attrify(dict):
     """Custom dict to access dict keys as attributes."""
 
     def __init__(self, *args, **kwargs):
         """
-        Convert normal dict to SuperDict, So you can access dict keys as attributes.
+        Convert normal dict to Attrified-Dict, So you can access dict keys as attributes.
         Can also convert nested structures.
         Example:
             >>> resp = {"quota": 100}
-            >>> resp = SuperDict(resp)
+            >>> resp = Attrify(resp)
             >>> resp.quota
             100
             >>> resp["quota"]
             100
             >>> nested_resp = {"quota": {"limit": 100, "expires_at": 12345}}
-            >>> nested_resp = SuperDict(nested_resp)
+            >>> nested_resp = Attrify(nested_resp)
             >>> nested_resp.quota.limit
             100
             >>> nested_resp.quota.expires_at
             12345
             >>> complex_nested_resp = {"data": {"results": [{"name": "something"}, {"name": "anything"}]}}
-            >>> complex_nested_resp = SuperDict(complex_nested_resp)
+            >>> complex_nested_resp = Attrify(complex_nested_resp)
             >>> complex_nested_resp.data.results[0].name
             something
         Notes:
@@ -55,13 +55,13 @@ class SuperDict(dict):
             cdict = kwargs
         for key in cdict:
             if isinstance(cdict[key], dict):
-                cdict[key] = SuperDict(cdict[key])
+                cdict[key] = Attrify(cdict[key])
             elif isinstance(cdict[key], (list, tuple, set)):
                 cdict[key] = self.convert_list(cdict[key])
         super().__init__(*args, **cdict)
 
     def convert_list(self, n: Union[List[Any], Tuple[Any, ...], Set[Any]]) -> List[Any]:
-        """Converts list to make sure if there is any dict inside it, It's converted to SuperDict"""
+        """Converts list to make sure if there is any dict inside it, It's converted to Attrify"""
         new_list = []
         for item in n:
             if isinstance(item, (list, tuple, set)):
@@ -73,15 +73,15 @@ class SuperDict(dict):
         return new_list
 
     def to_dict(self) -> Dict[str, Any]:
-        "Convert SuperDict back to dict."
+        "Convert Attrify back to dict."
         _dict = dict(self)
         for key in _dict:
-            if isinstance(_dict[key], SuperDict):
+            if isinstance(_dict[key], Attrify):
                 _dict[key] = _dict[key].to_dict()
             elif isinstance(_dict[key], (list, tuple, set)):
                 new_list = []
                 for i in _dict[key]:
-                    if isinstance(i, SuperDict):
+                    if isinstance(i, Attrify):
                         new_list.append(i.to_dict())
                     else:
                         new_list.append(i)
@@ -94,4 +94,6 @@ class SuperDict(dict):
 
     def __getattr__(self, attr):
         """Return self[attr]"""
-        return self[attr]
+        if attr in self:
+            return self[attr]
+        raise AttributeError(f"'Attrify-Dict'has no key '{attr}'")
