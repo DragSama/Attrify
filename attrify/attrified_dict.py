@@ -67,7 +67,7 @@ class Attrify(dict):
             if isinstance(item, (list, tuple, set)):
                 new_list.append(self.convert_list(item))
             elif isinstance(item, dict):
-                new_list.append(self.convert(item))
+                new_list.append(Attrify(item))
             else:
                 new_list.append(item)
         return new_list
