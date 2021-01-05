@@ -97,4 +97,4 @@ class Attrify(dict):
         """Return self[attr]"""
         if attr in self:
             return self[attr]
-        raise AttributeError(f"'Attrify-Dict'has no key '{attr}'")
+        raise AttributeError(f"Attrify has no attribute '{attr}'")
