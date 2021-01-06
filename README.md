@@ -1,4 +1,9 @@
 # Attrify
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1daae9072d214d199f95c53c8fe16d05)](https://www.codacy.com/gh/DragSama/Attrify/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DragSama/Attrify&amp;utm_campaign=Badge_Grade)
+[![PyPI Download Stats](https://img.shields.io/pypi/dd/attrify)](https://pypi.org/project/attrify/)
+[![PyPI Version](https://img.shields.io/pypi/v/attrify?color=brightgreen)](https://pypi.org/project/attrify/)
+[![Code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 **Access python dict keys as attributes**
 
 ## Installation
