@@ -21,7 +21,7 @@
 from .attrified_dict import Attrify
 
 __author__ = ["DragSama"]
-__version__ = 2.0
+__version__ = 3.0
 
 if __name__ == "__main__":
     print(f"Attrify v{__version__}: {Attrify}")
