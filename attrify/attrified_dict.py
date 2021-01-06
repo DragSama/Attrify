@@ -17,6 +17,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
 import json
 
 from typing import Tuple, List, Set, Union, Dict, Any
@@ -62,7 +63,7 @@ class Attrify(dict):
         super().__init__(*args, **cdict)
 
     def convert_list(self, n: Union[List[Any], Tuple[Any, ...], Set[Any]]) -> List[Any]:
-        """Converts list to make sure if there is any dict inside it, It's converted to Attrify"""
+        """Check list to see If there Is any list Inside it and If there is Attrify it."""
         new_list = []
         for item in n:
             if isinstance(item, (list, tuple, set)):
@@ -93,8 +94,14 @@ class Attrify(dict):
         """Shortuct for `json.dumps(output.to_dict(), indent = 4, ensure_ascii = False)`"""
         return json.dumps(self.to_dict(), indent=indent, ensure_ascii=False)
 
-    def __getattr__(self, attr):
+    def __getattr__(self, attr) -> Any:
         """Return self[attr]"""
         if attr in self:
             return self[attr]
         raise AttributeError(f"Attrify has no attribute '{attr}'")
+    
+    def __dir__(self) -> List[str]:
+        """Returns list of all attributes and keys that are alphabetic."""
+        l = dict.__dir__(self)
+        l.extend([x for x in self.keys() if str(x).isalpha()]) # Add all keys are alphabetic. 
+        return l
