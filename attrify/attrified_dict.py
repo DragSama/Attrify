@@ -22,8 +22,8 @@ import json
 
 from typing import Tuple, List, Set, Union, Dict, Any
 
-
 class Attrify(dict):
+
     """Custom dict to access dict keys as attributes."""
 
     def __init__(self, *args, **kwargs):
@@ -75,7 +75,7 @@ class Attrify(dict):
         return new_list
 
     def to_dict(self) -> Dict[str, Any]:
-        "Convert Attrify back to dict."
+        """Convert Attrify back to dict."""
         _dict = dict(self)
         for key in _dict:
             if isinstance(_dict[key], Attrify):
@@ -91,17 +91,18 @@ class Attrify(dict):
         return _dict
 
     def prettify(self, indent:int=4) -> str:
-        """Shortuct for `json.dumps(output.to_dict(), indent = 4, ensure_ascii = False)`"""
+        """Shortuct for `json.dumps(output.to_dict(), indent = 4, ensure_ascii = False)`."""
         return json.dumps(self.to_dict(), indent=indent, ensure_ascii=False)
 
     def __getattr__(self, attr) -> Any:
-        """Return self[attr]"""
+        """Return self[attr]."""
         if attr in self:
             return self[attr]
         raise AttributeError(f"Attrify has no attribute '{attr}'")
-    
+
     def __dir__(self) -> List[str]:
         """Returns list of all attributes and keys that are alphabetic."""
         l = dict.__dir__(self)
-        l.extend([x for x in self.keys() if str(x).isalpha()]) # Add all keys are alphabetic. 
+        # Add all keys that are alphabetic. 
+        l.extend([x for x in self.keys() if str(x).isalpha()])
         return l
